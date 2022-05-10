@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+<div class="p-grid p-jc-center p-mt-6" >
+
+  <form (ngSubmit)="loginIn( f )" #f="ngForm">
+    <p-card class="p-grid p-ai-center vertical-container" [style]="{width: '400px'}">
+      <ng-template pTemplate="header">
+        <div class="p-grid p-jc-center">
+          <img [src]="'assets/images/logoC_rosa.png'" [style]="{'width': '70%', 'display':'block'}" alt="logo">
+        </div>
+
+        <div [style]="{color:'#ff0391', 'font-family': 'dancing_script'}" class="p-grid p-jc-center">
+          <br>
+          Tranquilidad A Tu Alcance
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="title">
+        <div [style]="{color:'#ffa31a'}" class="p-grid p-jc-center">
+          ¡Bienvenido!
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="subtitle" id="sublogin" class="p-card-subtitleee">
+        <div class="p-grid p-jc-center">
+          <div [style]="{color:'gray', 'text-align':'center', 'font-size': '0.8em !important', 'width': '80%'}">El más confiable plan de repatriación y servicios funerarios. Empecemos</div>
+        </div>
+      </ng-template>
+
+      <div class="p-grid p-jc-center">
+
+        <div class="p-mt-4">
+          <input name="email" #email type="text" pInputText [(ngModel)]="user.usuario" required email placeholder="Email" style="width:230px">
+          <p-message severity="error" *ngIf="f.submitted && !user.usuario"></p-message>
+        </div>
+
+        <div class="p-mt-4">
+          <p-password name="password" #password [(ngModel)]="user.contrasena" [feedback]="false" [toggleMask]="true" required placeholder="Password"></p-password>
+          <p-message severity="error" *ngIf="f.submitted && !user.contrasena"></p-message>
+        </div>
+
+      </div>
+
+      <div class="p-mt-4 p-grid p-justify-center p-align-center">
+        <button pButton type="button" label="Olvide mi contraseña" class="p-button-text p-button-secondary"></button>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="p-grid p-justify-center p-align-center">
+          <p-button type="submit" label="Continuar" styleClass="p-button-info p-shadow-24" ></p-button>
+
+        </div>
+      </ng-template>
+
+    </p-card>
+  </form>
+
+</div>

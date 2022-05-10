@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'dancing_script';
+  src: url('/assets/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf') format('opentype');
+}
+
+.button-pink {
+  color: #ffffff;
+  background: #ff0391;
+  border: 1px solid #ff0391;
+}
+
+
+.p-button.p-button-pink:enabled:hover, .p-buttonset.p-button-pink > .p-button:enabled:hover, .p-splitbutton.p-button-pink > .p-button:enabled:hover {
+  color: #ffffff;
+  background: #ff0391;
+  border: 1px solid #ff0391;
+}
+
+.p-button.p-button-pink, .p-buttonset.p-button-pink > .p-button, .p-splitbutton.p-button-pink > .p-button {
+  color: #ffffff;
+  background: #ff0391;
+  border: 1px solid #ff0391;
+}

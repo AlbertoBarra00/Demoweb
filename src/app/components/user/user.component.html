@@ -1,0 +1,70 @@
+
+<p-toast></p-toast>
+
+<p-table #dtu [value]="users" styleClass="p-datatable-striped" [rows]="10" [paginator]="true" [globalFilterFields]="['correo']" [rowHover]="true" dataKey="id">
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      <p class="p-d-none p-d-md-inline-flex">Usuarios</p>
+      <p-button *ngIf="canCreate" type="button" icon="pi pi-plus" styleClass="p-button-rounded p-button-success p-shadow-24 p-d-md-none p-mr-2" (click)="openNew(fn)"></p-button>
+      <p-button *ngIf="canCreate" type="button" label="Nuevo" icon="pi pi-plus" styleClass="p-button-rounded p-button-success p-shadow-24 p-d-none p-d-md-inline-flex" (click)="openNew(fn)"></p-button>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dtu.filterGlobal($event.target.value, 'contains')" placeholder="Buscar usuario..." />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th id="idx1">Usuario</th>
+      <th id="idx2">
+        <div class="p-d-none p-d-md-inline-flex">
+          Tipo
+        </div>
+      </th>
+      <th id="idx3">&nbsp;</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td> {{user.usuario}} </td>
+      <td>
+        <div class="p-d-none p-d-md-inline-flex">
+          {{user.puesto}}
+        </div>
+      </td>
+      <td class="aliginCommandButton">
+        <button *ngIf="canUpdate" pButton pRipple icon="pi pi-pencil" style="background: #ff0391; border: 1px solid #ff0391;" class="p-button-rounded p-shadow-24" (click)="editUser(user)"></button>
+        <button *ngIf="canDelete" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-shadow-24" (click)="deleteUser(user)"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<form #fn="ngForm">
+  <p-dialog [(visible)]="showDialog" [style]="{width: '75vw'}" header="Registro" [modal]="true" styleClass="p-fluid" [baseZIndex]="10000">
+
+    <ng-template pTemplate="content">
+
+        <div class="p-field">
+          <span *ngIf="!isCreate">{{userNew.usuario}}</span>
+          <input *ngIf="isCreate" #email name="email" type="text" pInputText [(ngModel)]="userNew.usuario" required email placeholder="Email">
+          <p-message severity="error" *ngIf="fn.submitted && !userNew.usuario"></p-message>
+        </div>
+
+        <div class="p-field">
+          <p-password #password name="password" [(ngModel)]="userNew.contrasena" [feedback]="false" required placeholder="Password"></p-password>
+          <p-message severity="error" *ngIf="fn.submitted && !userNew.contrasena"></p-message>
+        </div>
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button *ngIf="canCreate || canUpdate" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveOrUpdateUser()"></button>
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" style="background: #ff0391; border: 1px solid #ff0391;" class="p-button-pink" (click)="showDialog = false"></button>
+    </ng-template>
+
+  </p-dialog>
+</form>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

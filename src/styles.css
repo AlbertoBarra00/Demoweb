@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@media screen and (max-width: 40rem) {
+    .hideCol{
+      display: none;
+    }
+
+    .resizeColUp{
+      min-width: 30%;
+    }
+    .resizeColDown{
+      width: 1%;
+    }
+
+    .aliginCommandButton{
+      text-align: right !important;
+    }
+
+}

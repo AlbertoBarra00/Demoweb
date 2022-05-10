@@ -1,0 +1,91 @@
+
+<p-toast></p-toast>
+<p-table #dtc [columns]="columNames" [value]="customers" styleClass="p-datatable-striped p-datatable-responsive-demo" [rows]="10" [paginator]="true" [globalFilterFields]="['nombre']" [rowHover]="true" dataKey="id">
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      <p class="p-d-none p-d-md-inline-flex">Clientes</p>
+      <p-button *ngIf="canCreate" type="button" icon="pi pi-plus" styleClass="p-button-rounded p-button-success p-shadow-24 p-d-md-none p-mr-2" (click)="openNew(fn)"></p-button>
+      <p-button *ngIf="canCreate" type="button" label="Nuevo" icon="pi pi-plus" styleClass="p-button-rounded p-button-success p-shadow-24 p-d-none p-d-md-inline-flex" (click)="openNew(fn)"></p-button>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" (input)="dtc.filterGlobal($event.target.value, 'contains')" placeholder="Buscar cliente..." />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns; let i = index" id="{{col.field}}{{i}}" [class]="col.classParent">
+                <div [class]="col.class">
+                  {{col.header}}
+                </div>
+            </th>
+            <th id="last_th">&nbsp;</th>
+        </tr>
+    </ng-template>
+
+  <ng-template pTemplate="body" let-customer let-columns="columns">
+          <tr>
+              <td *ngFor="let col of columns">
+                  <div [class]="col.class">
+                    {{ customer[col.field] }}
+                  </div>
+              </td>
+              <td class="aliginCommandButton">
+                <button *ngIf="canUpdate" pButton pRipple icon="pi pi-pencil" style="background: #ff0391; border: 1px solid #ff0391;" class="p-button-rounded p-shadow-24" (click)="editCustomer(customer)"></button>
+                <button *ngIf="canDelete" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-shadow-24" (click)="deleteCustomer(customer)"></button>
+              </td>
+          </tr>
+      </ng-template>
+
+</p-table>
+
+<form #fn="ngForm">
+<p-dialog [(visible)]="showDialog" [style]="{width: '75vw'}" header="Registro" [modal]="true" styleClass="p-fluid" [baseZIndex]="10000" [draggable]="false" [resizable]="true">
+
+  <ng-template pTemplate="content">
+
+    <div class="p-field">
+      <label for="name">Nombre</label>
+      <input type="text" #name name="name" pInputText [(ngModel)]="customer.nombre" required autofocus />
+      <p-message severity="error" *ngIf="fn.submitted && !customer.nombre"></p-message>
+    </div>
+
+    <div class="p-field">
+      <label for="description">CURP</label>
+      <input type="text" #curp name="curp" pInputText [(ngModel)]="customer.curp" required
+        pattern="([A-Z]{4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM](AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[A-Z]{3}[0-9A-Z]\d)" />
+      <p-message severity="error" *ngIf="fn.submitted && !customer.curp"></p-message>
+    </div>
+
+    <div class="p-field">
+      <label for="description">Fecha nacimiento</label>
+      <p-inputMask #fechanacimiento name="fechanacimiento" mask="99/99/9999" [(ngModel)]="customer.fechanacimiento" placeholder="99/99/9999" slotChar="dd/mm/yyyy"></p-inputMask>
+      <p-message severity="error" *ngIf="fn.submitted && !customer.fechanacimiento"></p-message>
+    </div>
+
+    <div>
+      <label for="description">Sexo</label>
+      <br>
+      <div class="p-field-radiobutton">
+        <p-radioButton name="sexo" value="M" [(ngModel)]="customer.sexo" inputId="sexo1"></p-radioButton>
+        <label for="sexo1">Masculino</label>
+      </div>
+      <div class="p-field-radiobutton">
+        <p-radioButton name="sexo" value="F" [(ngModel)]="customer.sexo" inputId="sexo2"></p-radioButton>
+        <label for="sexo2">Femenino</label>
+      </div>
+      <p-message severity="error" *ngIf="fn.submitted && !customer.sexo"></p-message>
+    </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button *ngIf="canCreate || canUpdate" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveOrUpdateCustomer()"></button>
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" style="background: #ff0391; border: 1px solid #ff0391;" class="p-button-pink" (click)="hideDialog()"></button>
+  </ng-template>
+
+</p-dialog>
+</form>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
