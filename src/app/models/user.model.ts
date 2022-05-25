@@ -13,4 +13,7 @@ export interface User {
   fechaAlta: Date;
   fechaUltimoAcceso: Date;
   foto: string
+  fechanacimiento: string;
+  fechaNac: Date;
+  sexo: string;
 }

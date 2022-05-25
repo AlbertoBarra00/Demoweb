@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService, private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.user = { usuarioId: 0, rolId: 0, tipoUsuarioId: 0, estatusUsuarioId: 0, personaFisicaId: 0, usuario: '', iniciales: '', contrasena: '', puesto: '', area: '', intentos: 0, fechaAlta: new Date(), fechaUltimoAcceso: new Date(), foto: '' };
+    this.user = { usuarioId: 0, rolId: 0, tipoUsuarioId: 0, estatusUsuarioId: 0, personaFisicaId: 0, usuario: '', iniciales: '', contrasena: '', puesto: '', area: '', intentos: 0, fechaAlta: new Date(), fechaUltimoAcceso: new Date(), foto: '',  fechanacimiento:'', fechaNac: new Date(), sexo: 'M' };
     this.authService.clearLoginData();
   }
 

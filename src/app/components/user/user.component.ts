@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { Permission } from 'src/app/models/permission.model';
 import { CryptoService } from 'src/app/services/crypto.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-user',
@@ -22,7 +23,7 @@ export class UserComponent implements OnInit {
   userNew!: User;
   showDialog: boolean = false;
   isCreate: boolean = true;
-  userEmpty: User = { usuarioId: 0, rolId: 3, tipoUsuarioId: 1, estatusUsuarioId: 1, personaFisicaId: 0, usuario: '', iniciales: 'MLC', contrasena: '', puesto: 'USER', area: 'DEMO_MLC', intentos: 0, fechaAlta: new Date(), fechaUltimoAcceso: new Date(), foto: 'Empty' };
+  userEmpty: User = { usuarioId: 0, rolId: 3, tipoUsuarioId: 1, estatusUsuarioId: 1, personaFisicaId: 0, usuario: '', iniciales: 'MLC', contrasena: '', puesto: 'USER', area: 'DEMO_MLC', intentos: 0, fechaAlta: new Date(), fechaUltimoAcceso: new Date(), foto: 'Empty', fechanacimiento:'', fechaNac: new Date(), sexo: 'M' };
   sisModId: string = '';
 
   canCreate: boolean = false;
@@ -33,7 +34,7 @@ export class UserComponent implements OnInit {
     private authService: AuthService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService) { }
 
   ngOnInit(): void {
-    this.userService.getCustomersAll().subscribe((data:User[])=>{
+    this.userService.getuserAll().subscribe((data:User[])=>{
       data.sort((a, b) => (a.usuario.toUpperCase() > b.usuario.toUpperCase()) ? 1 : -1);
       this.users = data;
     });
@@ -55,14 +56,27 @@ export class UserComponent implements OnInit {
         console.log(err);
       });
     }
-
+    this.getuserAll();
   }
 
+  getuserAll(){
+    this.userService.getuserAll().subscribe((data: User[]) => {
+      data.forEach((user: User) => {
+        user.fechaNac = new Date(user.fechaNac);
+        user.fechanacimiento = formatDate(user.fechaNac, 'dd/MM/yyyy', 'en-US');
+      });
+      this.users = data;
+
+    },(err) => {
+      console.log(err);
+    });
+  }
   getPermissions(data: Permission[]){
     this.canCreate = data.find(element => element.permisoId === 1) ? true : false;
     this.canUpdate = data.find(element => element.permisoId === 2) ? true : false;
     this.canDelete = data.find(element => element.permisoId === 3) ? true : false;
   }
+  
 
   openNew(form: NgForm) {
     form.resetForm();
@@ -77,6 +91,8 @@ export class UserComponent implements OnInit {
 
   editUser(user: User) {
     this.userNew = { ...user };
+    this.userNew.fechaNac = new Date(this.userNew.fechaNac);
+    this.userNew.fechanacimiento = formatDate(this.userNew.fechaNac, 'dd/MM/yyyy', 'en-US');
     this.showDialog = true;
     this.isCreate = false;
   }
@@ -104,17 +120,18 @@ export class UserComponent implements OnInit {
   }
 
   saveOrUpdateUser() {
-    if(!this.userNew.usuario || !this.userNew.contrasena){
+    if(!this.userNew.usuario || !this.userNew.contrasena || !this.userNew.fechanacimiento || !this.userNew.sexo){
       return;
     }
-
-    if (this.userNew.usuario.trim()) {
+    let intDate: string[] = this.userNew.fechanacimiento.split('/');
+    this.userNew.fechaNac = new Date(Number(intDate[2]), Number(intDate[1]) - 1, Number(intDate[0]));
+    
       if (this.userNew.usuarioId && this.userNew.usuarioId > 0) {
         this.updateUser(this.userNew);
       } else {
         this.createUser(this.userNew);
       }
-    }
+    
   }
 
   private createUser(user: User) {

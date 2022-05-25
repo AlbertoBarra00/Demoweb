@@ -22,7 +22,17 @@
           Tipo
         </div>
       </th>
-      <th id="idx3">&nbsp;</th>
+      <th id="idx3">
+        <div class="p-d-none p-d-md-inline-flex">
+          Fecha de nacimiento
+        </div>
+      </th>
+      <th id="idx4">
+        <div class="p-d-none p-d-md-inline-flex">
+          Sexo
+        </div>
+      </th>
+      <th id="idx5">&nbsp;</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-user>
@@ -31,6 +41,16 @@
       <td>
         <div class="p-d-none p-d-md-inline-flex">
           {{user.puesto}}
+        </div>
+      </td>
+      <td>
+        <div class="p-d-none p-d-md-inline-flex">
+          {{ user.fechaNac | date:'mediumDate'}}
+        </div>
+      </td>
+      <td>
+        <div class="p-d-none p-d-md-inline-flex">
+          {{user.sexo}}
         </div>
       </td>
       <td class="aliginCommandButton">
@@ -57,11 +77,32 @@
           <p-message severity="error" *ngIf="fn.submitted && !userNew.contrasena"></p-message>
         </div>
 
+        <div>
+          <label for="description">Sexo</label>
+          <br>
+          <div class="p-field-radiobutton">
+            <p-radioButton name="sexo" value="M" [(ngModel)]="userNew.sexo" inputId="sexo1"></p-radioButton>
+            <label for="sexo1">Masculino</label>
+          </div>
+          <div class="p-field-radiobutton">
+            <p-radioButton name="sexo" value="F" [(ngModel)]="userNew.sexo" inputId="sexo2"></p-radioButton>
+            <label for="sexo2">Femenino</label>
+          </div>
+          <p-message severity="error" *ngIf="fn.submitted && !userNew.sexo"></p-message>
+        </div>
+
+        <div class="p-field">
+          <label for="description">Fecha nacimiento</label>
+          <p-inputMask #fechanacimiento name="fechanacimiento" mask="99/99/9999" [(ngModel)]="userNew.fechanacimiento" placeholder="99/99/9999" slotChar="dd/mm/yyyy"></p-inputMask>
+  
+          <p-message severity="error" *ngIf="fn.submitted && !userNew.fechanacimiento"></p-message>
+        </div>
+
     </ng-template>
 
     <ng-template pTemplate="footer">
       <button *ngIf="canCreate || canUpdate" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="saveOrUpdateUser()"></button>
-      <button pButton pRipple label="Cancelar" icon="pi pi-times" style="background: #ff0391; border: 1px solid #ff0391;" class="p-button-pink" (click)="showDialog = false"></button>
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" style="background: #ff0391; border: 1px solid #ff0391;" class="p-button-pink" (click)="hideDialog()"></button>
     </ng-template>
 
   </p-dialog>

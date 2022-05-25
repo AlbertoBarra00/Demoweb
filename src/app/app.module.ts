@@ -15,6 +15,7 @@ import { InsuranceComponent } from './components/insurance/insurance.component';
 
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
 import { AppInterceptorService } from './interceptors/app-interceptor.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { AppInterceptorService } from './interceptors/app-interceptor.service';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-    PrimeNgModule
+    PrimeNgModule,
+    
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
