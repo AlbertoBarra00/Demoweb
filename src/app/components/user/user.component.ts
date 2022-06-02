@@ -123,8 +123,13 @@ export class UserComponent implements OnInit {
     if(!this.userNew.usuario || !this.userNew.contrasena || !this.userNew.fechanacimiento || !this.userNew.sexo){
       return;
     }
-    let intDate: string[] = this.userNew.fechanacimiento.split('/');
-    this.userNew.fechaNac = new Date(Number(intDate[2]), Number(intDate[1]) - 1, Number(intDate[0]));
+   console.log(this.userNew.fechanacimiento);
+    this.userNew.fechaNac = new Date(this.userNew.fechanacimiento)
+   console.log(this.userNew.fechaNac.getFullYear());
+   console.log(this.userNew.fechaNac.getMonth()+1);
+   console.log(this.userNew.fechaNac.getDate());
+    //let intDate: string[] = this.userNew.fechanacimiento.split('/');
+   //this.userNew.fechaNac = new Date(Number(intDate[2]), Number(intDate[1]) - 1, Number(intDate[0]));
     
       if (this.userNew.usuarioId && this.userNew.usuarioId > 0) {
         this.updateUser(this.userNew);
